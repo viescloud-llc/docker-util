@@ -1,0 +1,4 @@
+spring.data.redis.repositories.enabled: false
+eureka.client.enabled: false
+spring.application.name: docker-util
+spring.profiles.active: local
