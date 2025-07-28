@@ -4,7 +4,7 @@ server:
 jwt.secret: 'local'
 
 # Database configuration flags
-DATABASE_TYPE: 'h2-memory'
+DATABASE_TYPE: 'h2'
 OBJECT_STORAGE_TYPE: db #db or s3-minio or smb
 
 # Common datasource configuration
