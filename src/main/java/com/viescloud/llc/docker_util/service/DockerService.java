@@ -1,5 +1,6 @@
 package com.viescloud.llc.docker_util.service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -201,14 +202,19 @@ public class DockerService {
             return FSUtils.readFileAsBytes(filePath);
         }
 
+        var liveTerminal = TerminalUtils.newShLiveTerminal();
+
         if(ObjectUtils.isNotEmpty(dockerPullRequest.getUsername()) && ObjectUtils.isNotEmpty(dockerPullRequest.getPassword())) {
-            TerminalUtils.executeCommand(String.format("echo \"$s\" | docker login myregistry.com -u \"%s\" --password-stdin && docker pull %s", dockerPullRequest.getUsername(), dockerPullRequest.getPassword(), fullImagePath));
-        }
-        else {
-            TerminalUtils.executeCommand(String.format("docker pull %s", fullImagePath));
+            liveTerminal.runCommandAndWait(Duration.ofMinutes(1), new String[][] {
+                {String.format("docker login \"%s\" -u \"%s\"", dockerPullRequest.getDockerHub(), dockerPullRequest.getUsername())},
+                {dockerPullRequest.getPassword()}
+            });
         }
 
-        TerminalUtils.executeCommand(String.format("docker save -o \"%s\" \"%s\"", filePath, fullImagePath));
+        liveTerminal.runCommandAndWait(Duration.ofDays(1), new String[][] {
+            {String.format("docker pull %s", fullImagePath)},
+            {String.format("docker save -o \"%s\" \"%s\"", filePath, fullImagePath)}
+        });
 
         return FSUtils.readFileAsBytes(filePath);
     }
