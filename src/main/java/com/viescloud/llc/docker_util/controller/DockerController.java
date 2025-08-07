@@ -21,7 +21,7 @@ public class DockerController {
 
     private final DockerService dockerService;
 
-    @PutMapping
+    @PutMapping("pull")
     public ResponseEntity<?> pullAndGetImage(
         @RequestBody DockerPullRequest dockerPullRequest
     ) {

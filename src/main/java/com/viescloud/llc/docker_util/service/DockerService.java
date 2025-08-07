@@ -192,6 +192,14 @@ public class DockerService {
             dockerPullRequest.setDockerHub(dockerPullRequest.getDockerHub().substring(0, dockerPullRequest.getDockerHub().length() - 1));
         }
 
+        if(dockerPullRequest.getDockerHub().equals("https://hub.docker.com")) {
+            dockerPullRequest.setDockerHub(DockerPullRequest.DOCKER_HUB);
+        }
+
+        if(dockerPullRequest.getDockerHub().startsWith("http://") || dockerPullRequest.getDockerHub().startsWith("https://")) {
+            dockerPullRequest.setDockerHub(dockerPullRequest.getDockerHub().replaceFirst("^https?://", ""));
+        }
+
         TerminalUtils.executeCommand("mkdir", "-p", WORKDIR);
 
         var fullImagePath = String.format("%s/%s:%s", dockerPullRequest.getDockerHub(), dockerPullRequest.getImage(), dockerPullRequest.getTag());
