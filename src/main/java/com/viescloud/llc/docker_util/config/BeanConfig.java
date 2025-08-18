@@ -23,6 +23,9 @@ public class BeanConfig {
     public ViesApplicationConfig viesApplicationConfig(@Value("${spring.profiles.active:local}") String env) {
         var config = new ViesApplicationConfig(env, Streams.stream(ViesDefaultEndpointEnum.values()).map(ViesDefaultEndpointEnum::getEndpoint).toList());
         config.setEnabledHttpClientController(true);
+        config.addDefaultEndpointRegex("^/api/v1/dockers/engine/ready$");
+        config.addDefaultEndpointRegex("^/api/v1/dockers/image$");
+        config.addDefaultEndpointRegex("^/api/v1/dockers/pull$");
         return config;
     }
 

@@ -183,7 +183,7 @@ public class DockerService {
             return Optional.empty();
     }
 
-    public Optional<byte[]> pullImageAndPackTar(DockerPullRequest dockerPullRequest) {
+    public Optional<String> pullImageAndPackTar(DockerPullRequest dockerPullRequest) {
         while(dockerPullRequest.getImage().startsWith("/") && dockerPullRequest.getImage().length() > 1) {
             dockerPullRequest.setImage(dockerPullRequest.getImage().substring(1));
         }
@@ -207,7 +207,8 @@ public class DockerService {
         filePath += ".tar";
 
         if(FSUtils.isFileExist(filePath)) {
-            return FSUtils.readFileAsBytes(filePath);
+            return Optional.of(filePath);
+            // return FSUtils.readFileAsBytes(filePath);
         }
 
         var liveTerminal = TerminalUtils.newShLiveTerminal();
@@ -224,6 +225,8 @@ public class DockerService {
             {String.format("docker save -o \"%s\" \"%s\"", filePath, fullImagePath)}
         });
 
-        return FSUtils.readFileAsBytes(filePath);
+        // return FSUtils.readFileAsBytes(filePath);
+
+        return Optional.of(filePath);
     }
 }
