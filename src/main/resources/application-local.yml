@@ -4,15 +4,15 @@ server:
 jwt.secret: 'local'
 
 # Database configuration flags
-DATABASE_TYPE: 'h2'
+DATABASE_TYPE: 'mysql'
 OBJECT_STORAGE_TYPE: db #db or s3-minio or smb
 
 # Common datasource configuration
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
-      # ddl-auto: create-drop
+      # ddl-auto: update
+      ddl-auto: create-drop
   h2:
     console:
       enabled: true
@@ -46,12 +46,12 @@ H2_PASSWORD: 'password'
 
 # -----------------------------------MySQL specific configuration-----------------------------------
 
-# MYSQL_HOST: '10.24.24.2'
-# MYSQL_PORT: 3306
-# MYSQL_DB: 'Docker_util'
-# MYSQL_USERNAME: 'docker_util'
-# MYSQL_PASSWORD: 'docker_util'
-# MYSQL_USE_SSL: 'false'
+MYSQL_HOST: '10.24.24.2'
+MYSQL_PORT: 3306
+MYSQL_DB: 'Docker_util'
+MYSQL_USERNAME: 'docker_util'
+MYSQL_PASSWORD: 'docker_util'
+MYSQL_USE_SSL: 'false'
 
 # -----------------------------------Redis specific configuration-----------------------------------
 REDIS_ENABLED: false
